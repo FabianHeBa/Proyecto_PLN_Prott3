@@ -1,12 +1,17 @@
 # Prott3 Protein2Text-QA
 
-Implementación modular del notebook original para entrenar una arquitectura tipo:
+Este proyecto implementa una estructura modular para experimentar con un sistema de generación de respuestas en el dominio biomédico a partir de secuencias de proteínas. La idea general es combinar representaciones biológicas obtenidas con un encoder especializado en proteínas con la capacidad generativa de un modelo de lenguaje, de forma que el sistema pueda responder preguntas asociadas a información proteica.
+
+La arquitectura sigue un flujo inspirado en Prott3, donde primero se extraen embeddings de las secuencias mediante ESM-2. Después, estas representaciones se adaptan al espacio del modelo de lenguaje usando un Q-Former, que funciona como puente entre la información proteica y el generador textual. Finalmente, Gemma se ajusta mediante LoRA para producir respuestas condicionadas tanto por la pregunta como por la representación aprendida de la proteína.
 
 ```text
 ESM-2 -> Q-Former -> Gemma + LoRA
 ```
 
-La lógica del notebook se mantuvo: se usa `tumorailab/Protein2Text-QA`, se precomputan embeddings ESM, se entrena el Q-Former junto con LoRA sobre Gemma y se evalúa con BLEU, ROUGE y BERTScore.
+El objetivo principal de esta implementación es transformar el notebook original en un flujo más limpio, reproducible y fácil de mantener. Para ello, el código se separa en módulos independientes para la carga de datos, preprocesamiento, generación de embeddings, definición del modelo, entrenamiento y evaluación. Esta organización facilita ejecutar experimentos, depurar errores, modificar componentes específicos y versionar el proyecto en GitHub.
+
+El dataset utilizado es `tumorailab/Protein2Text-QA`, que contiene pares de pregunta-respuesta asociados a secuencias de proteínas. Durante el flujo se precomputan los embeddings ESM para reducir el costo durante el entrenamiento, se entrena el Q-Former junto con adaptadores LoRA sobre Gemma y se evalúa el desempeño del modelo mediante métricas de generación de texto como BLEU, ROUGE y BERTScore.
+
 
 ## Estructura
 
