@@ -24,7 +24,7 @@ prott3_p2t_github/
 │   ├── train.py         # Optimizer, scheduler, loop de entrenamiento y guardado
 │   └── evaluate.py      # Generación de predicciones y métricas
 ├── scripts/
-│   ├── run_pipeline.py  # Ejecuta todo el flujo original
+│   ├── run_pipeline.py  # Ejecuta todo el flujo
 │   └── precompute_esm.py
 ├── requirements.txt
 ├── .env.example
