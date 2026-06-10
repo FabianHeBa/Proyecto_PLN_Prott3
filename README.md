@@ -33,7 +33,7 @@ prott3_p2t_github/
 
 ## Versiones principales
 
-El proyecto está preparado para las versiones que se usaron en la workstation:
+Se usaron las siguientes versiones de estas librerias por limitaciones de hardware y compatibilidad 
 
 ```text
 transformers==4.44.0
@@ -42,13 +42,7 @@ peft==0.12.0
 bitsandbytes==0.45.3
 ```
 
-## Instalación
-
-```bash
-pip install -r requirements.txt
-```
-
-Si el modelo o dataset requiere autenticación, configura el token de Hugging Face como variable de entorno:
+Se requiere autenticación, se puede configurar el token de Hugging Face como variable de entorno:
 
 ```bash
 export HF_TOKEN="tu_token"
@@ -62,13 +56,7 @@ $env:HF_TOKEN="tu_token"
 
 ## Ejecución
 
-Desde la raíz del repositorio:
-
-```bash
-python scripts/run_pipeline.py
-```
-
-El script hace lo mismo que el notebook original:
+El script `run_pipeline.py` ejecuta todo el flujo en el siguiente orden:
 
 1. Carga `tumorailab/Protein2Text-QA`.
 2. Toma el 30% del split `test`.
@@ -80,7 +68,7 @@ El script hace lo mismo que el notebook original:
 8. Genera predicciones en validación.
 9. Calcula BLEU, ROUGE y BERTScore.
 
-## Salidas ignoradas por Git
+## Salidas
 
 Los siguientes artefactos se generan localmente y no deberían subirse al repositorio:
 
