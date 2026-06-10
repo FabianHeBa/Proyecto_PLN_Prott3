@@ -59,6 +59,58 @@ Las métricas consideradas para el análisis son:
 * ROUGE: evalúa solapamiento textual, especialmente útil para comparar contenido recuperado o resumido.
 * BERTScore: mide similitud semántica usando embeddings contextuales.
 
+## Hiperparámetros principales
+
+Los hiperparámetros del proyecto se pueden modificar en el archivo `prott3_p2t/config.py`.
+
+### Configuración del dataset
+
+| Hiperparámetro    |                        Valor | Descripción                                                              |
+| ----------------- | ---------------------------: | ------------------------------------------------------------------------ |
+| `dataset_id`      | `tumorailab/Protein2Text-QA` | Dataset utilizado para la tarea de pregunta-respuesta sobre proteínas.   |
+| `sample_fraction` |                       `0.30` | Proporción del split usado para el experimento.                          |
+| `validation_size` |                       `0.05` | Proporción usada para validación dentro de la muestra seleccionada.      |
+| `seed`            |                         `42` | Semilla usada para reproducibilidad en el muestreo y partición de datos. |
+
+### Configuración de modelos
+
+| Hiperparámetro     |                                                           Valor | Descripción                                                                       |
+| ------------------ | --------------------------------------------------------------: | --------------------------------------------------------------------------------- |
+| `esm_model_id`     |                                     `facebook/esm2_t6_8M_UR50D` | Modelo ESM-2 usado para codificar secuencias de proteínas.                        |
+| `qformer_id`       | `microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext` | Modelo base usado para inicializar el Q-Former.                                   |
+| `gemma_id`         |                                          `google/gemma-2-2b-it` | Modelo de lenguaje generativo usado para producir las respuestas.                 |
+| `num_query_tokens` |                                                            `32` | Número de tokens aprendibles usados por el Q-Former para representar la proteína. |
+
+### Configuración de entrenamiento
+
+| Hiperparámetro     |  Valor | Descripción                                                                      |
+| ------------------ | -----: | -------------------------------------------------------------------------------- |
+| `epochs`           |    `5` | Número de épocas de entrenamiento.                                               |
+| `train_batch_size` |    `4` | Tamaño de batch para entrenamiento.                                              |
+| `val_batch_size`   |    `2` | Tamaño de batch para validación.                                                 |
+| `esm_batch_size`   |    `4` | Tamaño de batch usado durante el precomputo de embeddings ESM-2.                 |
+| `learning_rate`    | `2e-4` | Tasa de aprendizaje usada por el optimizador.                                    |
+| `weight_decay`     | `0.01` | Penalización L2 usada para regularización.                                       |
+| `warmup_ratio`     | `0.03` | Proporción inicial del entrenamiento usada para calentamiento del learning rate. |
+| `max_grad_norm`    |  `1.0` | Valor máximo para clipping de gradientes.                                        |
+
+### Configuración de LoRA
+
+| Hiperparámetro   |              Valor | Descripción                                                           |
+| ---------------- | -----------------: | --------------------------------------------------------------------- |
+| `lora_r`         |                `8` | Rango de las matrices de bajo rango usadas por LoRA.                  |
+| `lora_alpha`     |               `16` | Factor de escalamiento de LoRA.                                       |
+| `lora_dropout`   |             `0.05` | Dropout aplicado en las capas LoRA.                                   |
+| `target_modules` | `q_proj`, `v_proj` | Módulos del modelo de lenguaje donde se aplican los adaptadores LoRA. |
+
+### Configuración de generación
+
+| Hiperparámetro   |   Valor | Descripción                                                                               |
+| ---------------- | ------: | ----------------------------------------------------------------------------------------- |
+| `max_new_tokens` |    `96` | Número máximo de tokens generados por respuesta.                                          |
+| `num_beams`      |     `1` | Número de beams usados durante generación. Un valor de 1 corresponde a generación greedy. |
+| `do_sample`      | `False` | Indica si se usa muestreo estocástico durante generación.                                 |
+
 ## Estructura
 
 ```text
