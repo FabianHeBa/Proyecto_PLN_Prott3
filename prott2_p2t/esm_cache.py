@@ -18,7 +18,6 @@ def cache_path(seq: str, cache_dir: str):
 
 
 def load_esm(config: Config):
-    """Load and freeze the ESM-2 model used to precompute protein embeddings."""
     esm_tokenizer = AutoTokenizer.from_pretrained(config.esm_id)
     esm_model = AutoModel.from_pretrained(config.esm_id).to(config.device)
     esm_model.eval()
@@ -47,7 +46,7 @@ def precompute_esm_cache(
     batch_size = batch_size or config.esm_batch_size
     pending_seqs = []
 
-    def flush(batch_seqs: Iterable[str]) -> None:
+    def flush(batch_seqs: Iterable[str]):
         batch_seqs = list(batch_seqs)
         if not batch_seqs:
             return
