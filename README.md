@@ -70,7 +70,7 @@ El script `run_pipeline.py` ejecuta todo el flujo en el siguiente orden:
 
 ## Salidas
 
-Los siguientes artefactos se generan localmente y no deberían subirse al repositorio:
+El script genera los siguientes archivos y carpetas de manera local:
 
 ```text
 esm_cache/
