@@ -184,4 +184,4 @@ predictions.csv
 
 La implementación muestra que es posible construir un flujo para combinar representaciones de proteínas con generación de texto biomédico. 
 
-Sin embargo, los resultados también muestran que conectar un encoder de proteínas con un modelo de lenguaje no garantiza que el generador utilice correctamente la información biológica. Una limitación importante es la posible generación de respuestas genéricas, lo que indica que las relaciones entre proteína y texto requiere mayor detalle o estrategias adicionales de alineación.
+Sin embargo, los resultados también muestran que conectar un encoder de proteínas con un modelo de lenguaje no garantiza que el generador utilice correctamente la información. Una limitación importante es la ppresencia generación de respuestas genéricas, lo que indica que las relaciones entre proteína y texto requiere mayor detalle o estrategias adicionales de alineación.
