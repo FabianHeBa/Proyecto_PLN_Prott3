@@ -1,0 +1,14 @@
+transformers==4.44.0
+accelerate==0.34.0
+peft==0.12.0
+bitsandbytes==0.45.3
+datasets
+huggingface_hub
+torch
+numpy
+pandas
+tqdm
+evaluate
+rouge_score
+sacrebleu
+bert-score
