@@ -18,8 +18,14 @@ Liu, Zhiyuan, An Zhang, Hao Fei, Enzhi Zhang, Xiang Wang, Kenji Kawaguchi, and T
     pages = "5949--5966"
 }
 ```
+## El problema de procesar proteínas
 
-# Metodología
+Los modelos de lenguaje son capaces de procesar y generar texto biomédico, pero no están diseñados para interpretar directamente secuencias de aminoácidos. Por otro lado, los modelos especializados en proteínas, como ESM-2, producen representaciones útiles de secuencias biológicas, pero no generan respuestas en lenguaje natural por sí mismos.
+
+El problema central consiste en conectar estas dos capacidades: representar información proteica y utilizarla como condición para responder preguntas biomédicas. En este proyecto se aborda una tarea de protein question answering, donde cada ejemplo contiene una secuencia de proteína, una pregunta asociada y una respuesta textual esperada.
+
+## Metodología
+
 Este proyecto implementa una estructura modular para experimentar con un sistema de generación de respuestas en el dominio biomédico a partir de secuencias de proteínas. La idea general es combinar representaciones biológicas obtenidas con un encoder especializado en proteínas con la capacidad generativa de un modelo de lenguaje, de forma que el sistema pueda responder preguntas asociadas a información proteica.
 
 La arquitectura sigue un flujo inspirado en Prott3, donde primero se extraen embeddings de las secuencias mediante ESM-2. Después, estas representaciones se adaptan al espacio del modelo de lenguaje usando un Q-Former, que funciona como puente entre la información proteica y el generador textual. Finalmente, Gemma se ajusta mediante LoRA para producir respuestas condicionadas tanto por la pregunta como por la representación aprendida de la proteína.
@@ -29,6 +35,29 @@ ESM-2 -> Q-Former -> Gemma + LoRA
 ```
 El dataset utilizado es `tumorailab/Protein2Text-QA`, que contiene pares de pregunta-respuesta asociados a secuencias de proteínas. Durante el flujo se precomputan los embeddings ESM para reducir el costo durante el entrenamiento, se entrena el Q-Former junto con adaptadores LoRA sobre Gemma y se evalúa el desempeño del modelo mediante métricas de generación de texto como BLEU, ROUGE y BERTScore.
 
+## ¿Qué buscamos?
+
+El objetivo es implementar una arquitectura para la tarea de pregunta-respuesta sobre proteínas, conservando los componentes principales de la propuesta original: un modelo especializado en proteínas, un módulo de proyección cruzada y un modelo de lenguaje ajustado.
+
+Además, se busca que el proyecto sea ejecutable en hardware limitado.
+
+## Propuesta
+
+La propuesta de mejora consiste en adaptar la arquitectura a un flujo más práctico sobre `Protein2Text-QA`. Para ello se incorporan las siguientes decisiones:
+
+* Uso de ESM-2 como encoder especializado para obtener representaciones biológicas de las secuencias.
+* Precomputo de embeddings de proteínas para evitar recalcular ESM-2 durante cada época de entrenamiento.
+* Uso de un Q-Former como puente entre el espacio de proteínas y el espacio textual del LM.
+* Ajuste de Gemma mediante LoRA para reducir el número de parámetros entrenables.
+* Evaluación  con métricas estándar de PLN.
+
+## Análisis de resultados
+
+Las métricas consideradas para el análisis son:
+
+* BLEU: mide coincidencia n-gram entre la respuesta generada y la referencia.
+* ROUGE: evalúa solapamiento textual, especialmente útil para comparar contenido recuperado o resumido.
+* BERTScore: mide similitud semántica usando embeddings contextuales.
 
 ## Estructura
 
@@ -99,3 +128,8 @@ predictions.csv
 *.pt
 *.safetensors
 ```
+## Conclusiones
+
+La implementación muestra que es posible construir un flujo para combinar representaciones de proteínas con generación de texto biomédico. 
+
+Sin embargo, los resultados también muestran que conectar un encoder de proteínas con un modelo de lenguaje no garantiza que el generador utilice correctamente la información biológica. Una limitación importante es la posible generación de respuestas genéricas, lo que indica que las relaciones entre proteína y texto requiere mayor detalle o estrategias adicionales de alineación.
