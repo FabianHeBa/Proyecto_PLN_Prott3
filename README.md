@@ -7,9 +7,6 @@ La arquitectura sigue un flujo inspirado en Prott3, donde primero se extraen emb
 ```text
 ESM-2 -> Q-Former -> Gemma + LoRA
 ```
-
-El objetivo principal de esta implementación es transformar el notebook original en un flujo más limpio, reproducible y fácil de mantener. Para ello, el código se separa en módulos independientes para la carga de datos, preprocesamiento, generación de embeddings, definición del modelo, entrenamiento y evaluación. Esta organización facilita ejecutar experimentos, depurar errores, modificar componentes específicos y versionar el proyecto en GitHub.
-
 El dataset utilizado es `tumorailab/Protein2Text-QA`, que contiene pares de pregunta-respuesta asociados a secuencias de proteínas. Durante el flujo se precomputan los embeddings ESM para reducir el costo durante el entrenamiento, se entrena el Q-Former junto con adaptadores LoRA sobre Gemma y se evalúa el desempeño del modelo mediante métricas de generación de texto como BLEU, ROUGE y BERTScore.
 
 
